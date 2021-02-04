@@ -42,6 +42,7 @@ public class EnemyDeath : MonoBehaviour
             theEnemy.GetComponent<LookPlayer>().enabled = false;
             healthBar.SetActive(false);
             bag.SetActive(true);
+            GlobalCash.cashValue += 300;
         }
     }
 }
