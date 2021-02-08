@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class SoldierAI : MonoBehaviour
 {
@@ -13,6 +14,19 @@ public class SoldierAI : MonoBehaviour
     public int genHurt;
     public AudioSource[] hurtSound;
     public GameObject hurtFlash;
+    private NavMeshAgent agent;
+    public Transform destination;
+    //private Vector3 initialPosition;
+    //private Vector3 secondPos;
+    //private Vector3 thirdPos;
+    //private int destCount;
+
+    private void Start()
+    {
+        agent = GetComponentInParent<NavMeshAgent>();
+        //initialPosition = GetComponentInParent<Transform>().transform.position;
+        //destCount = 0;
+    }
 
     void Update()
     {
@@ -27,9 +41,10 @@ public class SoldierAI : MonoBehaviour
         }
         if(hitTag != "Player")
         {
-            theSoldier.GetComponent<Animator>().Play("Idle");
+            theSoldier.GetComponent<Animator>().Play("Walk");
             lookingAtPlayer = false;
         }
+        agent.destination = destination.transform.position;
     }
 
     IEnumerator EnemyFire()
