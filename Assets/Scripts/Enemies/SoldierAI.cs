@@ -6,16 +6,17 @@ using UnityEngine.AI;
 public class SoldierAI : MonoBehaviour
 {
     public string hitTag;
-    public bool lookingAtPlayer = false;
-    public GameObject theSoldier;
-    public AudioSource fireSound;
-    public bool isFiring = false;
+    public bool lookingAtPlayer = false, isFiring = false;
+    public GameObject theSoldier, thePlayer;
+    public AudioSource fireSound;    
     public float fireRate = 1.5f;
-    public int genHurt;
+    private int genHurt;
     public AudioSource[] hurtSound;
     public GameObject hurtFlash;
     private NavMeshAgent agent;
     public Transform destination;
+    private Animator animator;
+    public bool isHit, targetON;
     //private Vector3 initialPosition;
     //private Vector3 secondPos;
     //private Vector3 thirdPos;
@@ -24,6 +25,9 @@ public class SoldierAI : MonoBehaviour
     private void Start()
     {
         agent = GetComponentInParent<NavMeshAgent>();
+        animator = GetComponentInParent<Animator>();
+        isHit = false;
+        targetON = false;
         //initialPosition = GetComponentInParent<Transform>().transform.position;
         //destCount = 0;
     }
@@ -31,20 +35,33 @@ public class SoldierAI : MonoBehaviour
     void Update()
     {
         RaycastHit Hit;
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out Hit))
+        if (Physics.Raycast(transform.position, transform.forward/*TransformDirection(Vector3.forward)*/, out Hit))
         {
             hitTag = Hit.transform.tag;         
         }
         if(hitTag == "Player" && !isFiring)
         {
+            //targetON = true;
             StartCoroutine(EnemyFire());
         }
         if(hitTag != "Player")
         {
-            theSoldier.GetComponent<Animator>().Play("Walk");
+            //theSoldier.GetComponent<Animator>().Play("Walk");
             lookingAtPlayer = false;
         }
         agent.destination = destination.transform.position;
+        //if(!targetON || !isHit)
+        //{
+        //    agent.GetComponent<LookPlayer>().enabled = true;
+        //    agent.destination = destination.transform.position;
+        //    animator.Play("Walk");
+        //}
+        //else if(targetON || isHit)
+        //{
+        //    agent.GetComponent<NavMeshAgent>().stoppingDistance = 10;
+        //    agent.destination = thePlayer.transform.position;
+        //}
+
     }
 
     IEnumerator EnemyFire()

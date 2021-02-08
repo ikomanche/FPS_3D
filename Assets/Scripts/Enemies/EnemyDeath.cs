@@ -38,7 +38,7 @@ public class EnemyDeath : MonoBehaviour
         {
             isDead = true;
             theEnemy.GetComponent<Animator>().Play("Death");
-            enemyAI.SetActive(false);
+            //enemyAI.SetActive(false);
             theEnemy.GetComponent<LookPlayer>().enabled = false;
             healthBar.SetActive(false);
             bag.SetActive(true);
