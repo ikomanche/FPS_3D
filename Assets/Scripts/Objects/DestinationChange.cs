@@ -10,7 +10,7 @@ public class DestinationChange : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.tag == "Enemy")
-        {
+        {            
             theEnemy = other.gameObject;
             StartCoroutine(IdleAnim());
             if (count % 3 == 0)
@@ -35,7 +35,7 @@ public class DestinationChange : MonoBehaviour
     {
         theEnemy.GetComponent<NavMeshAgent>().speed = 0;
         theEnemy.GetComponent<Animator>().Play("Idle");
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5f);
         theEnemy.GetComponent<NavMeshAgent>().speed = 2;
         theEnemy.GetComponent<Animator>().Play("Walk");
     }

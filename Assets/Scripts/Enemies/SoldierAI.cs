@@ -39,17 +39,41 @@ public class SoldierAI : MonoBehaviour
         {
             hitTag = Hit.transform.tag;         
         }
-        if(hitTag == "Player" && !isFiring)
+        if(hitTag == "Player" && !isFiring && !agent.GetComponent<EnemyDeath>().isDead)
         {
-            //targetON = true;
+            targetON = true;
             StartCoroutine(EnemyFire());
         }
         if(hitTag != "Player")
         {
             //theSoldier.GetComponent<Animator>().Play("Walk");
             lookingAtPlayer = false;
+            //agent.GetComponent<LookPlayer>().enabled = false;
         }
-        agent.destination = destination.transform.position;
+        if(!targetON)
+            agent.destination = destination.transform.position;
+        else if(targetON)
+        {
+            if(!agent.GetComponent<EnemyDeath>().isDead)
+            {
+                agent.destination = thePlayer.transform.position;
+                agent.GetComponent<LookPlayer>().enabled = true;
+                agent.GetComponent<NavMeshAgent>().speed = 2;
+                agent.GetComponent<NavMeshAgent>().stoppingDistance = 10;
+                if(Hit.transform.tag != "Player")
+                {
+                    agent.GetComponent<LookPlayer>().enabled = false;
+                    agent.GetComponent<Animator>().Play("Run");
+                    agent.GetComponent<NavMeshAgent>().speed = 5;
+                }
+                //agent.GetComponent<Animator>().Play("Run");
+                //if(Hit.distance == 10)
+                //{
+                //    agent.GetComponent<Animator>().Play("FirePistol",-1,0)
+                //}
+                
+            }            
+        }
         //if(!targetON || !isHit)
         //{
         //    agent.GetComponent<LookPlayer>().enabled = true;
