@@ -35,7 +35,7 @@ public class DestinationChange : MonoBehaviour
     {
         theEnemy.GetComponent<NavMeshAgent>().speed = 0;
         theEnemy.GetComponent<Animator>().Play("Idle");
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(3f);
         theEnemy.GetComponent<NavMeshAgent>().speed = 2;
         theEnemy.GetComponent<Animator>().Play("Walk");
     }

@@ -12,7 +12,7 @@ public class GlobalHealth : MonoBehaviour
 
     private void Start()
     {
-        healthValue = 100;
+        healthValue = 1000;
     }
 
     void Update()

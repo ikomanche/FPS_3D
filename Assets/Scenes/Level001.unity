@@ -7717,6 +7717,7 @@ MonoBehaviour:
   destination: {fileID: 1534948979}
   isHit: 0
   targetON: 0
+  outOfRange: 0
 --- !u!4 &465296743 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 417994, guid: eefa18c7aee7d324eb1d4af38eafc25a,
@@ -17922,7 +17923,7 @@ NavMeshAgent:
   m_Height: 0.94
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 2
+  m_ObstacleAvoidanceType: 0
 --- !u!4 &1108594476 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400096, guid: de63ee434fe39914b8d2f5680c62d05f,

@@ -69,11 +69,12 @@ public class HandgunFire : MonoBehaviour
             if(theShot.transform.tag == "Enemy" || theShot.transform.tag == "Player" || theShot.transform.tag == "Door")
             {
                 theShot.transform.SendMessage("DamageEnemy", damageAmount, SendMessageOptions.DontRequireReceiver);
+                theShot.transform.GetComponentInChildren<SoldierAI>().isHit = true;
             }
             else if(theShot.transform.tag == "EnemyHead")
             {
                 print("HeadShot!!!!");
-                theShot.transform.SendMessage("DamageEnemy", damageAmount * 3, SendMessageOptions.DontRequireReceiver);
+                theShot.transform.SendMessage("DamageEnemy", damageAmount * 3, SendMessageOptions.DontRequireReceiver);                
             }
             //if(Physics.Raycast(GetComponent<CharacterAim>().gunEnd.transform.position,playerCamera.transform.forward,out gun))
             //{

@@ -5,6 +5,12 @@ using UnityEngine.AI;
 
 public class SoldierAI : MonoBehaviour
 {
+    /// <summary>
+    /// next day subject: Redesign this mess ! 
+    /// Add chase shoot functions.
+    /// 
+    /// works but messy 9.2.21 2PM
+    /// </summary>
     public string hitTag;
     public bool lookingAtPlayer = false, isFiring = false;
     public GameObject theSoldier, thePlayer;
@@ -17,10 +23,12 @@ public class SoldierAI : MonoBehaviour
     public Transform destination;
     private Animator animator;
     public bool isHit, targetON;
+    public bool outOfRange;
     //private Vector3 initialPosition;
     //private Vector3 secondPos;
     //private Vector3 thirdPos;
     //private int destCount;
+    private float range = 10f;
 
     private void Start()
     {
@@ -42,16 +50,28 @@ public class SoldierAI : MonoBehaviour
         if(hitTag == "Player" && !isFiring && !agent.GetComponent<EnemyDeath>().isDead)
         {
             targetON = true;
-            StartCoroutine(EnemyFire());
+            if (Hit.distance > range)
+                outOfRange = true;
+            else
+                outOfRange = false;
+            if(!outOfRange)
+                StartCoroutine(EnemyFire());
         }
-        if(hitTag != "Player")
+        if(hitTag != "Player" && !targetON)
         {
             //theSoldier.GetComponent<Animator>().Play("Walk");
             lookingAtPlayer = false;
-            //agent.GetComponent<LookPlayer>().enabled = false;
+            agent.GetComponent<LookPlayer>().enabled = false;
         }
         if(!targetON)
+        {
             agent.destination = destination.transform.position;
+            if(isHit)
+            {
+                targetON = true;
+            }
+        }
+            
         else if(targetON)
         {
             if(!agent.GetComponent<EnemyDeath>().isDead)
@@ -59,12 +79,19 @@ public class SoldierAI : MonoBehaviour
                 agent.destination = thePlayer.transform.position;
                 agent.GetComponent<LookPlayer>().enabled = true;
                 agent.GetComponent<NavMeshAgent>().speed = 2;
-                agent.GetComponent<NavMeshAgent>().stoppingDistance = 10;
-                if(Hit.transform.tag != "Player")
-                {
-                    agent.GetComponent<LookPlayer>().enabled = false;
+                agent.GetComponent<NavMeshAgent>().stoppingDistance = range;
+                if (outOfRange)
+                {                    
                     agent.GetComponent<Animator>().Play("Run");
-                    agent.GetComponent<NavMeshAgent>().speed = 5;
+                    agent.GetComponent<NavMeshAgent>().speed = 7;
+                    agent.GetComponent<NavMeshAgent>().acceleration = 25;
+                }
+                if (Hit.transform.tag != "Player")
+                {
+                    //agent.GetComponent<LookPlayer>().enabled = false;
+                    agent.GetComponent<Animator>().Play("Run");
+                    agent.GetComponent<NavMeshAgent>().speed = 7;
+                    agent.GetComponent<NavMeshAgent>().acceleration = 25;
                 }
                 //agent.GetComponent<Animator>().Play("Run");
                 //if(Hit.distance == 10)
@@ -86,6 +113,11 @@ public class SoldierAI : MonoBehaviour
         //    agent.destination = thePlayer.transform.position;
         //}
 
+    }
+
+    public void HitByPlayer()
+    {
+        isHit = true;
     }
 
     IEnumerator EnemyFire()
