@@ -38,9 +38,7 @@ public class HandgunFire : MonoBehaviour
 
 
     private void CharacterAim_OnShoot(object sender, CharacterAim.OnShootEventArgs e)
-    {
-        /*float dist = GetComponent<PlayerCasting>().toTarget;
-        print(dist);*/
+    {        
         GameObject bullet = Instantiate(Projectile, e.gunEndPointPosition, Quaternion.identity);
         bullet.transform.forward = playerCamera.transform.forward;
     }
@@ -84,14 +82,7 @@ public class HandgunFire : MonoBehaviour
             else if(theShot.transform.tag == "Player" || theShot.transform.tag == "Door")
             { 
                 //do nothing
-            }
-            //if(Physics.Raycast(GetComponent<CharacterAim>().gunEnd.transform.position,playerCamera.transform.forward,out gun))
-            //{
-            //    if(gun.transform.tag != "Enemy" && gun.transform.tag != "Door")
-            //    {
-            //        Instantiate(bulletHole, gun.point, Quaternion.FromToRotation(Vector3.up, theShot.normal));
-            //    }
-            //}
+            }            
             else
             {
                 Instantiate(bulletHole, theShot.point, Quaternion.FromToRotation(Vector3.up, theShot.normal));
