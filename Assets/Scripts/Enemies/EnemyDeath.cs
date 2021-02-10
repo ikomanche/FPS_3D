@@ -37,6 +37,7 @@ public class EnemyDeath : MonoBehaviour
         if(enemyHealth <= 0 && !isDead)
         {
             isDead = true;
+            GetComponent<BoxCollider>().enabled = false;
             theEnemy.GetComponent<Animator>().Play("Death");
             //enemyAI.SetActive(false);
             theEnemy.GetComponent<LookPlayer>().enabled = false;

@@ -21,7 +21,11 @@ public class HandgunFire : MonoBehaviour
     private int damageAmount;
     private float gunRange;
     public bool fireAnimAvailable = false;
-    
+
+    private void Awake()
+    {
+        isFiring = false;
+    }
 
     private void Start()
     {
@@ -29,6 +33,7 @@ public class HandgunFire : MonoBehaviour
         characterAim.OnShoot += CharacterAim_OnShoot;
         damageAmount = GetComponent<Item>().Damage;
         gunRange = GetComponent<Item>().Range;
+        isFiring = false;
     }
 
 
@@ -55,7 +60,7 @@ public class HandgunFire : MonoBehaviour
                     StartCoroutine(FiringHandgun());                    
                 }
             }            
-        }
+        }        
     }
     IEnumerator FiringHandgun()
     {
@@ -66,7 +71,7 @@ public class HandgunFire : MonoBehaviour
         if(Physics.Raycast(rayOrigin, playerCamera.transform.forward,out theShot, gunRange))
         {
             targetDistance = theShot.distance;
-            if(theShot.transform.tag == "Enemy" || theShot.transform.tag == "Player" || theShot.transform.tag == "Door")
+            if(theShot.transform.tag == "Enemy" /*|| theShot.transform.tag == "Player" || theShot.transform.tag == "Door"*/)
             {
                 theShot.transform.SendMessage("DamageEnemy", damageAmount, SendMessageOptions.DontRequireReceiver);
                 theShot.transform.GetComponentInChildren<SoldierAI>().isHit = true;
@@ -75,6 +80,10 @@ public class HandgunFire : MonoBehaviour
             {
                 print("HeadShot!!!!");
                 theShot.transform.SendMessage("DamageEnemy", damageAmount * 3, SendMessageOptions.DontRequireReceiver);                
+            }
+            else if(theShot.transform.tag == "Player" || theShot.transform.tag == "Door")
+            { 
+                //do nothing
             }
             //if(Physics.Raycast(GetComponent<CharacterAim>().gunEnd.transform.position,playerCamera.transform.forward,out gun))
             //{

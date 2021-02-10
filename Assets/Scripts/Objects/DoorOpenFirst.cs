@@ -10,6 +10,8 @@ public class DoorOpenFirst : MonoBehaviour
     public AudioSource doorFX;
     public GameObject txtOpenDoor;
     public bool isCollide = false;
+    [SerializeField]
+    private bool isEnemy = false, isOpen = false;
     
     private void Update()
     {   
@@ -23,21 +25,36 @@ public class DoorOpenFirst : MonoBehaviour
             else
             {
                 doorFX.Play();
+                isOpen = true;
                 theDoor.GetComponent<Animator>().Play("DoorOpen");
                 //this.GetComponent<BoxCollider>().enabled = false;
                 StartCoroutine(CloseDoor());
             }            
         }
+        if(isEnemy && isCollide && !isOpen)
+        {
+            doorFX.Play();
+            theDoor.GetComponent<Animator>().Play("DoorOpen");            
+            StartCoroutine(CloseDoor());
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        isCollide = true;
-        txtOpenDoor.SetActive(true);
+        if(other.transform.tag == "Player")
+        {
+            txtOpenDoor.SetActive(true);
+        }
+        if(other.transform.tag == "Enemy")
+        {
+            isEnemy = true;
+        }
+        isCollide = true;        
     }
     private void OnTriggerExit(Collider other)
     {
         isCollide = false;
+        isEnemy = false;
         txtOpenDoor.SetActive(false);
     }
 
@@ -48,6 +65,7 @@ public class DoorOpenFirst : MonoBehaviour
         theDoor.GetComponent<Animator>().Play("DoorClose");
         //this.GetComponent<BoxCollider>().enabled = true;
         isCollide = false;
+        isOpen = false;
     }
 
     IEnumerator txtFadeTime()

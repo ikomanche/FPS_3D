@@ -58,7 +58,10 @@ public class WeaponSwitch : MonoBehaviour
         foreach(Transform weapon in transform)
         {            
             if (i == selectedWeapon && weapon.GetComponent<Item>().hasOwn)
+            {
                 weapon.gameObject.SetActive(true);
+                //weapon.GetComponent<HandgunFire>().isFiring = false;
+            }                
             else
                 weapon.gameObject.SetActive(false);
             i++;
