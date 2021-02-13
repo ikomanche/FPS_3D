@@ -13,6 +13,7 @@ public class DoorOpenFirst : MonoBehaviour
     [SerializeField]
     private bool isEnemy = false, isOpen = false;
     [SerializeField] private GameObject Soldier2AI;
+    [SerializeField] GameObject passwordInputPanel;
     
     private void Update()
     {   
@@ -22,12 +23,17 @@ public class DoorOpenFirst : MonoBehaviour
             {
                 Soldier2AI.SendMessage("BeginPatrol", SendMessageOptions.DontRequireReceiver);
             }
+            if(this.gameObject.name == "ThirdDoorTrigger")
+            {
+                passwordInputPanel.SetActive(true);
+                txtOpenDoor.SetActive(false);
+            }
             if (!realKey.activeSelf)
             {
                 txtNeedKey.SetActive(true);
                 StartCoroutine(txtFadeTime());
             }
-            else
+            else if(this.gameObject.name != "ThirdDoorTrigger")
             {
                 doorFX.Play();
                 isOpen = true;
@@ -63,6 +69,8 @@ public class DoorOpenFirst : MonoBehaviour
         isCollide = false;
         isEnemy = false;
         txtOpenDoor.SetActive(false);
+        if(passwordInputPanel != null)
+            passwordInputPanel.SetActive(false);
     }
 
     IEnumerator CloseDoor()
