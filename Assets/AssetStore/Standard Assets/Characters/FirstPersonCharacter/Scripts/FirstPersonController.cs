@@ -11,6 +11,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
     [RequireComponent(typeof (AudioSource))]
     public class FirstPersonController : MonoBehaviour
     {
+        public bool isSneak = false , soundON = false;
         public GameObject bagPanel;
         public GameObject InventoryPanel;
         public GameObject letterPanel; //added line at 1/16/2021 4PM
@@ -65,6 +66,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
         // Update is called once per frame
         private void Update()
         {
+            if (Input.GetKeyDown(KeyCode.Q)) //sneak mode
+            {
+                isSneak = !isSneak;
+            }
             RotateView();
             // the jump state needs to read here to make sure it is not missed
             if (!m_Jump)
@@ -131,7 +136,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
             m_CollisionFlags = m_CharacterController.Move(m_MoveDir*Time.fixedDeltaTime);
 
-            ProgressStepCycle(speed);
+            ProgressStepCycle(speed,isSneak);
             UpdateCameraPosition(speed);
             
             m_MouseLook.UpdateCursorLock(letterPanel,InventoryPanel,bagPanel); //edited line at 1/16/2021            
@@ -145,7 +150,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         }
 
 
-        private void ProgressStepCycle(float speed)
+        private void ProgressStepCycle(float speed,bool sneak)
         {
             if (m_CharacterController.velocity.sqrMagnitude > 0 && (m_Input.x != 0 || m_Input.y != 0))
             {
@@ -160,7 +165,16 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
             m_NextStep = m_StepCycle + m_StepInterval;
 
-            PlayFootStepAudio();
+            if (!sneak)
+            {
+                PlayFootStepAudio();
+                soundON = true;
+            }
+            else
+            {
+                soundON = false;
+            }
+                
         }
 
 
@@ -207,6 +221,21 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void GetInput(out float speed)
         {
+            /*
+             * added by me for disabling sound
+             */
+
+            //if (Input.GetKeyDown(KeyCode.Q)) //sneak mode
+            //{
+            //    isSneak = !isSneak;                
+            //}
+            //if(Input.GetKeyDown(KeyCode.E))
+            //{
+            //    isSneak = false;
+            //}
+            
+
+
             // Read input
             float horizontal = CrossPlatformInputManager.GetAxis("Horizontal");
             float vertical = CrossPlatformInputManager.GetAxis("Vertical");
@@ -220,6 +249,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 #endif
             // set the desired speed to be walking or running
             speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;
+            if (isSneak)
+                speed = 3;
             m_Input = new Vector2(horizontal, vertical);
 
             // normalize input if it exceeds 1 in combined length:

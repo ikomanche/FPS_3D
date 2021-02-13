@@ -12,11 +12,16 @@ public class DoorOpenFirst : MonoBehaviour
     public bool isCollide = false;
     [SerializeField]
     private bool isEnemy = false, isOpen = false;
+    [SerializeField] private GameObject Soldier2AI;
     
     private void Update()
     {   
         if(isCollide && Input.GetKeyDown(KeyCode.E))
         {
+            if (this.gameObject.name == "SecondDoorTrigger")
+            {
+                Soldier2AI.SendMessage("BeginPatrol", SendMessageOptions.DontRequireReceiver);
+            }
             if (!realKey.activeSelf)
             {
                 txtNeedKey.SetActive(true);
@@ -36,7 +41,7 @@ public class DoorOpenFirst : MonoBehaviour
             doorFX.Play();
             theDoor.GetComponent<Animator>().Play("DoorOpen");            
             StartCoroutine(CloseDoor());
-        }
+        }       
     }
 
     void OnTriggerEnter(Collider other)
@@ -44,12 +49,14 @@ public class DoorOpenFirst : MonoBehaviour
         if(other.transform.tag == "Player")
         {
             txtOpenDoor.SetActive(true);
+            isCollide = true;
         }
         if(other.transform.tag == "Enemy")
         {
             isEnemy = true;
+            isCollide = true;
         }
-        isCollide = true;        
+               
     }
     private void OnTriggerExit(Collider other)
     {

@@ -13,20 +13,36 @@ public class DestinationChange : MonoBehaviour
         {            
             theEnemy = other.gameObject;
             StartCoroutine(IdleAnim());
-            if (count % 3 == 0)
+            if (this.gameObject.name == "Dest1")
             {
-                this.gameObject.transform.position = new Vector3(-5.16f, 1f, 36.64f);
-                count++;
-            }
-            else if (count % 3 == 1)
-            {
-                this.gameObject.transform.position = new Vector3(-13.17f, 1f, 36.01f);
-                count++;
+                if (count % 3 == 0)
+                {
+                    this.gameObject.transform.position = new Vector3(-5.16f, 1f, 36.64f);
+                    count++;
+                }
+                else if (count % 3 == 1)
+                {
+                    this.gameObject.transform.position = new Vector3(-13.17f, 1f, 36.01f);
+                    count++;
+                }
+                else
+                {
+                    this.gameObject.transform.position = new Vector3(-8.09f, 1f, 26.3f);
+                    count++;
+                }
             }
             else
             {
-                this.gameObject.transform.position = new Vector3(-8.09f, 1f, 26.3f);
-                count++;
+                if (count % 2 == 0)
+                {
+                    this.gameObject.transform.position = new Vector3(-22.769f,1,23.633f);
+                    count++;
+                }
+                else
+                {
+                    this.gameObject.transform.position = new Vector3(-22.769f,1,-11.26f);
+                    count++;
+                }
             }
         }
     }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class EnemyDeath : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class EnemyDeath : MonoBehaviour
     public bool isDead = false;
     public GameObject enemyAI;
     public GameObject theEnemy;
-
+    [SerializeField] BoxCollider box;
 
     public Slider healthbarSlider;
     public Gradient hbGradient;
@@ -30,6 +31,17 @@ public class EnemyDeath : MonoBehaviour
         healthbarSlider.value = enemyHealth;
 
         fill.color = hbGradient.Evaluate(1f);        
+    }    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        
+        if (other.GetComponent<Item>().description == "Melee")
+        {
+            enemyHealth = 0;
+            GetComponent<NavMeshAgent>().speed = 0;
+        }
+            
     }
 
     void Update()
@@ -39,7 +51,7 @@ public class EnemyDeath : MonoBehaviour
             isDead = true;
             GetComponent<BoxCollider>().enabled = false;
             theEnemy.GetComponent<Animator>().Play("Death");
-            //enemyAI.SetActive(false);
+            enemyAI.SetActive(false);
             theEnemy.GetComponent<LookPlayer>().enabled = false;
             healthBar.SetActive(false);
             bag.SetActive(true);
