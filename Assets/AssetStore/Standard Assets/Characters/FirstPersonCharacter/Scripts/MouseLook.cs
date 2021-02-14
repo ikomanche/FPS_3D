@@ -82,11 +82,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 InternalLockUpdate();
         }
 
-        public void UpdateCursorLock(GameObject uiPanel,GameObject inventoryPanel, GameObject bagPanel) //added line at 1/16/2021 4PM Overloaded
+        public void UpdateCursorLock(GameObject uiPanel,GameObject inventoryPanel, GameObject bagPanel,GameObject doorInputPanel) //added line at 1/16/2021 4PM Overloaded
         {
             //if the user set "lockCursor" we check & properly lock the cursos
             if (lockCursor)
-                InternalLockUpdate(uiPanel,inventoryPanel,bagPanel);
+                InternalLockUpdate(uiPanel,inventoryPanel,bagPanel,doorInputPanel);
         }
 
         private void InternalLockUpdate()
@@ -123,9 +123,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
         }
 
-        private void InternalLockUpdate(GameObject uiPanel, GameObject inventoryPanel, GameObject bagPanel) //added line at 1/16/2021 4PM Overloaded
+        private void InternalLockUpdate(GameObject uiPanel, GameObject inventoryPanel, GameObject bagPanel,GameObject doorInputPanel) //added line at 1/16/2021 4PM Overloaded
         {
-            if (inventoryPanel.activeSelf || bagPanel.activeSelf || uiPanel.activeSelf)//added line at 1/2/21 8PM
+            if (inventoryPanel.activeSelf || bagPanel.activeSelf || uiPanel.activeSelf || doorInputPanel.activeSelf)//added line at 1/2/21 8PM
             {
                 m_cursorIsLocked = false;
             }

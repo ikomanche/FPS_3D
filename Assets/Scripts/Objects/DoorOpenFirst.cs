@@ -42,7 +42,7 @@ public class DoorOpenFirst : MonoBehaviour
                 StartCoroutine(CloseDoor());
             }            
         }
-        if(isEnemy && isCollide && !isOpen)
+        if(isEnemy && isCollide && !isOpen && this.gameObject.name != "ThirdDoorTrigger")
         {
             doorFX.Play();
             theDoor.GetComponent<Animator>().Play("DoorOpen");            

@@ -12,6 +12,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
     public class FirstPersonController : MonoBehaviour
     {
         public bool isSneak = false , soundON = false;
+        public GameObject doorInputPanel;
         public GameObject bagPanel;
         public GameObject InventoryPanel;
         public GameObject letterPanel; //added line at 1/16/2021 4PM
@@ -139,7 +140,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             ProgressStepCycle(speed,isSneak);
             UpdateCameraPosition(speed);
             
-            m_MouseLook.UpdateCursorLock(letterPanel,InventoryPanel,bagPanel); //edited line at 1/16/2021            
+            m_MouseLook.UpdateCursorLock(letterPanel,InventoryPanel,bagPanel,doorInputPanel); //edited line at 1/16/2021            
         }
 
 
@@ -251,6 +252,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;
             if (isSneak)
                 speed = 3;
+            if (doorInputPanel.activeSelf)
+                speed = 0;
             m_Input = new Vector2(horizontal, vertical);
 
             // normalize input if it exceeds 1 in combined length:
@@ -271,7 +274,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
         private void RotateView()
         {       
-            if(!InventoryPanel.activeSelf && !letterPanel.activeSelf && !bagPanel.activeSelf)
+            if(!InventoryPanel.activeSelf && !letterPanel.activeSelf && !bagPanel.activeSelf && !doorInputPanel.activeSelf) //stop rotation added line
                 m_MouseLook.LookRotation (transform, m_Camera.transform);            
         }
 

@@ -10,6 +10,7 @@ public class HandgunFire : MonoBehaviour
     public GameObject letterPanel;
     public GameObject inventoryPanel;
     public GameObject bagPanel;
+    public GameObject doorInputPanel;
 
     public AudioSource gunFire;
     public bool isFiring = false;
@@ -45,7 +46,7 @@ public class HandgunFire : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetButtonDown("Fire1") && !letterPanel.activeSelf && !inventoryPanel.activeSelf && !bagPanel.activeSelf)
+        if(Input.GetButtonDown("Fire1") && !letterPanel.activeSelf && !inventoryPanel.activeSelf && !bagPanel.activeSelf && !doorInputPanel.activeSelf)
         {
             if(GlobalAmmo.handgunAmmo < 1)
             {

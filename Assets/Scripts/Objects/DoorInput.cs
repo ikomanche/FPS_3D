@@ -7,13 +7,21 @@ public class DoorInput : MonoBehaviour
 {
     [SerializeField] InputField _inputField;
     [SerializeField] GameObject _door;
+    [SerializeField] GameObject _player;
+      
 
-    private void Update()
+    public void DoorHandler(string password)
     {
-        if(_inputField.text == "abc")
+        if(password == "Kevin" || password == "kevin")
         {
             _door.GetComponent<Animator>().Play("DoorOpen");
+            gameObject.SetActive(false);
         }
+    }
+
+    public void TextInput()
+    {
+        DoorHandler(_inputField.text);        
     }
 
 }
