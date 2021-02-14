@@ -12,7 +12,7 @@ public class DoorInput : MonoBehaviour
 
     public void DoorHandler(string password)
     {
-        if(password == "Kevin" || password == "kevin")
+        if(password == "Kevin12" || password == "kevin12")
         {
             _door.GetComponent<Animator>().Play("DoorOpen");
             gameObject.SetActive(false);

@@ -11,16 +11,23 @@ public class NotePickUp : MonoBehaviour
     public bool isCollide = false;
     private void OnTriggerEnter(Collider other)
     {
-        isCollide = true;
-        txtRead.SetActive(true);
+        if(other.transform.tag == "Player")
+        {
+            isCollide = true;
+            txtRead.SetActive(true);
+        }        
     }       
 
     private void OnTriggerExit(Collider other)
     {
-        print("exitTriggerFirst");        
-        txtRead.SetActive(false);
-        isCollide = false;
-        //letterPanel.SetActive(false);
+        if(other.transform.tag == "Player")
+        {
+            //print("exitTriggerFirst");
+            txtRead.SetActive(false);
+            isCollide = false;
+            //letterPanel.SetActive(false);
+        }
+
     }
         
 
@@ -28,19 +35,31 @@ public class NotePickUp : MonoBehaviour
     {
         if(isCollide && Input.GetKeyDown(KeyCode.R))
         {   
+            
             letter.SetActive(false);
             paperSound.Play();
             letterPanel.SetActive(true);
+            txtRead.SetActive(false);
             //isCollide = false;
         }
         if (isCollide && Input.GetKeyDown(KeyCode.E))
         {
-            letter.SetActive(false);
-            paperSound.Play();
-            //print("Here");
-            //letterPanel.SetActive(false);
-            txtRead.SetActive(false);
-            //isCollide = false;
+            if (gameObject.transform.name == "letterTemplate2")
+            {                
+                paperSound.Play();
+                txtRead.SetActive(false);
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                letter.SetActive(false);
+                paperSound.Play();
+                //print("Here");
+                //letterPanel.SetActive(false);
+                txtRead.SetActive(false);
+                //isCollide = false;
+            }
+
         }
     }
     

@@ -12,6 +12,7 @@ public class InventoryButtons : MonoBehaviour
     public GameObject theCell;
     public GameObject paneltoLoad1;
     public GameObject panelToLoad2;
+    public GameObject panelToLoad3;
     public GameObject cellIcon;
     public int cellIndex;
     private GameObject theObject;
@@ -28,8 +29,11 @@ public class InventoryButtons : MonoBehaviour
                     
         //theObject.GetComponent<Sprite>().texture
         if (theObject.tag == "Item2")
-        {            
-            panelToLoad2.SetActive(true);
+        {
+            if (theObject.transform.name == "letterTemplate")
+                panelToLoad2.SetActive(true);
+            else if (theObject.transform.name == "letterTemplate2")
+                panelToLoad3.SetActive(true);
             /*paneltoLoad1.SetActive(true);
             cellIcon.GetComponent<Image>().sprite = theObject.GetComponent<Image>().sprite;*/
         }            
