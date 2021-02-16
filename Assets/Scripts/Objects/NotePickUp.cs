@@ -34,16 +34,27 @@ public class NotePickUp : MonoBehaviour
     private void Update()
     {
         if(isCollide && Input.GetKeyDown(KeyCode.R))
-        {   
-            
-            letter.SetActive(false);
-            paperSound.Play();
-            letterPanel.SetActive(true);
-            txtRead.SetActive(false);
-            //isCollide = false;
+        {
+            if (gameObject.transform.name == "letterTemplate2")
+            {
+                paperSound.Play();
+                txtRead.SetActive(false);
+                gameObject.SetActive(false);
+                letterPanel.SetActive(true);
+            }
+            else
+            {
+                letter.SetActive(false);
+                paperSound.Play();
+                letterPanel.SetActive(true);
+                txtRead.SetActive(false);
+                //isCollide = false;
+            }
+
         }
         if (isCollide && Input.GetKeyDown(KeyCode.E))
         {
+            txtRead.SetActive(false);
             if (gameObject.transform.name == "letterTemplate2")
             {                
                 paperSound.Play();
@@ -61,6 +72,7 @@ public class NotePickUp : MonoBehaviour
             }
 
         }
+
     }
     
 }

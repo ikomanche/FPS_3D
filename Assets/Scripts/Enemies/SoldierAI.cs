@@ -30,59 +30,63 @@ public class SoldierAI : MonoBehaviour
 
     void Update()
     {
-        RaycastHit Hit;
-        if (Physics.Raycast(transform.position, transform.forward/*TransformDirection(Vector3.forward)*/, out Hit))
+        if(!agent.GetComponent<EnemyDeath>().isDead)
         {
-            hitTag = Hit.transform.tag;         
-        }
-        if(hitTag == "Player" && !isFiring && !agent.GetComponent<EnemyDeath>().isDead)
-        {
-            targetON = true;
-            if (Hit.distance > range)
-                outOfRange = true;
-            else
-                outOfRange = false;
-            //print(Hit.distance);
-            if(!outOfRange)
-                StartCoroutine(EnemyFire());
-        }
-        if(hitTag != "Player" && !targetON)
-        {
-            //theSoldier.GetComponent<Animator>().Play("Walk");
-            lookingAtPlayer = false;
-            agent.GetComponent<LookPlayer>().enabled = false;
-        }
-        if(!targetON)
-        {
-            agent.destination = destination.transform.position;
-            if(isHit)
+            RaycastHit Hit;
+            if (Physics.Raycast(transform.position, transform.forward/*TransformDirection(Vector3.forward)*/, out Hit))
+            {
+                hitTag = Hit.transform.tag;
+            }
+            if (hitTag == "Player" && !isFiring && !agent.GetComponent<EnemyDeath>().isDead)
             {
                 targetON = true;
+                if (Hit.distance > range)
+                    outOfRange = true;
+                else
+                    outOfRange = false;
+                //print(Hit.distance);
+                if (!outOfRange)
+                    StartCoroutine(EnemyFire());
+            }
+            if (hitTag != "Player" && !targetON)
+            {
+                //theSoldier.GetComponent<Animator>().Play("Walk");
+                lookingAtPlayer = false;
+                agent.GetComponent<LookPlayer>().enabled = false;
+            }
+            if (!targetON)
+            {
+                agent.destination = destination.transform.position;
+                if (isHit)
+                {
+                    targetON = true;
+                }
+            }
+
+            if (targetON)
+            {
+                if (!agent.GetComponent<EnemyDeath>().isDead)
+                {
+                    agent.destination = thePlayer.transform.position;
+                    agent.GetComponent<LookPlayer>().enabled = true;
+                    agent.GetComponent<NavMeshAgent>().speed = 0;
+                    agent.GetComponent<NavMeshAgent>().stoppingDistance = range;
+                    if (outOfRange)
+                    {
+                        agent.GetComponent<Animator>().Play("Run");
+                        agent.GetComponent<NavMeshAgent>().speed = 7;
+                        agent.GetComponent<NavMeshAgent>().acceleration = 25;
+                    }
+                    if (Hit.transform.tag != "Player")
+                    {
+                        agent.GetComponent<Animator>().Play("Run");
+                        agent.GetComponent<NavMeshAgent>().speed = 7;
+                        agent.GetComponent<NavMeshAgent>().acceleration = 25;
+                    }
+                }
             }
         }
-            
-        if(targetON)
-        {
-            if(!agent.GetComponent<EnemyDeath>().isDead)
-            {
-                agent.destination = thePlayer.transform.position;
-                agent.GetComponent<LookPlayer>().enabled = true;                
-                agent.GetComponent<NavMeshAgent>().speed = 0;                
-                agent.GetComponent<NavMeshAgent>().stoppingDistance = range;
-                if (outOfRange)
-                {                    
-                    agent.GetComponent<Animator>().Play("Run");
-                    agent.GetComponent<NavMeshAgent>().speed = 7;
-                    agent.GetComponent<NavMeshAgent>().acceleration = 25;
-                }
-                if (Hit.transform.tag != "Player")
-                {                    
-                    agent.GetComponent<Animator>().Play("Run");
-                    agent.GetComponent<NavMeshAgent>().speed = 7;
-                    agent.GetComponent<NavMeshAgent>().acceleration = 25;
-                }
-            }            
-        }
+        
     }
 
     public void HitByPlayer()

@@ -15,13 +15,19 @@ public class KeyPickUp : MonoBehaviour
     public bool isCollide = false;
     private void OnTriggerEnter(Collider other)
     {
-        isCollide = true;
-        txtTakeKey.SetActive(true);
+        if(other.transform.tag == "Player")
+        {
+            isCollide = true;
+            txtTakeKey.SetActive(true);
+        }        
     }
     private void OnTriggerExit(Collider other)
     {
-        isCollide = false;
-        txtTakeKey.SetActive(false);
+        if(other.transform.tag == "Player")
+        {
+            isCollide = false;
+            txtTakeKey.SetActive(false);
+        }        
     }
     private void Update()
     {
